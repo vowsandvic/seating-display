@@ -6,6 +6,7 @@ import { loadLang, saveLang, type Lang } from './domain/i18n';
 import { I18nProvider, useT } from './ui/i18n/I18nContext';
 import { ToastProvider } from './ui/components/Toast';
 import { LangToggle } from './ui/components/LangToggle';
+import { QrShareButton } from './ui/features/share/QrShare';
 import { Hero } from './ui/features/hero/Hero';
 import { SearchCard } from './ui/features/search/SearchCard';
 import { ChipsRow } from './ui/features/chips/ChipsRow';
@@ -27,7 +28,10 @@ function Screen({ data, lang, onLangChange }: { data: SeatingData; lang: Lang; o
 
   return (
     <>
-      <LangToggle lang={lang} onChange={onLangChange} />
+      <div className="top-actions2">
+        <QrShareButton />
+        <LangToggle lang={lang} onChange={onLangChange} />
+      </div>
       <div id="wrap">
         <Hero logo={data.logo} />
         <SearchCard floorplan={data.floorplan} guests={data.guests} onFocusTable={focusTable} />

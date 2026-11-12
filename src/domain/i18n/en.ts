@@ -34,6 +34,15 @@ const en: Dictionary = {
   viewOnPlan: 'View plan',
   toastTableNotFound: (table) => `Table "${table}" isn't on the floor plan. Please ask a member of staff.`,
   langToggleTitle: 'Switch language / เปลี่ยนภาษา',
+  qrBtnTitle: 'Show this page as a QR code',
+  qrTitle: 'Scan to find your seat',
+  qrDesc: 'Let the people with you scan this code to open the seat finder on their own phone.',
+  qrAlt: 'QR code for the seat finder',
+  qrLinkLabel: 'Seat finder link',
+  qrShare: 'Share link',
+  qrCopy: 'Copy link',
+  qrCopied: 'Link copied',
+  qrDownload: 'Save QR image',
 };
 
 export default en;

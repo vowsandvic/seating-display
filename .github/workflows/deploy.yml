@@ -17,6 +17,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      event_path: ${{ steps.event_path.outputs.path }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,17 +27,52 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-      - run: npm run build
+
+      # The event path comes from the "path" field that seating-plan writes into data.json
+      # (Link & QR dialog). The site is then published under /seating-display/<path>/ and
+      # the bare /seating-display/ returns 404. No path → published at /seating-display/.
+      # Keep the rule in sync with seating-plan's src/domain/eventPath.ts.
+      - id: event_path
+        name: Read event path from data.json
+        run: |
+          if [ -f public/data.json ]; then src=public/data.json; else src=src/data/seating-data.json; fi
+          p="$(jq -r 'if type == "object" and (.path | type) == "string" then .path else "" end' "$src")"
+          if [ -n "$p" ] && ! [[ "$p" =~ ^[a-z0-9]([a-z0-9-]{0,62}[a-z0-9])?$ ]]; then
+            echo "::error file=$src::Invalid \"path\" value '$p'. Use 1-64 chars of a-z, 0-9 and inner hyphens."
+            exit 1
+          fi
+          echo "Event path from $src: ${p:-<none>}"
+          echo "path=$p" >> "$GITHUB_OUTPUT"
+
+      - name: Build
+        env:
+          EVENT_PATH: ${{ steps.event_path.outputs.path }}
+        run: |
+          base="/seating-display/${EVENT_PATH:+$EVENT_PATH/}"
+          npm run build -- --base="$base"
+          if [ -n "$EVENT_PATH" ]; then
+            mkdir -p site
+            mv dist "site/$EVENT_PATH"
+          else
+            mv dist site
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: site
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}${{ needs.build.outputs.event_path && format('{0}/', needs.build.outputs.event_path) || '' }}
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+      - name: Summary
+        env:
+          URL: ${{ steps.deployment.outputs.page_url }}${{ needs.build.outputs.event_path && format('{0}/', needs.build.outputs.event_path) || '' }}
+        run: |
+          echo "### Seat finder is live" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "$URL" >> "$GITHUB_STEP_SUMMARY"
