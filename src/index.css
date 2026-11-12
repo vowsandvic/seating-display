@@ -280,9 +280,12 @@ body{
 
 .hidden{display:none !important;}
 
-.lang-toggle2{
+.top-actions2{
   /* absolute (not fixed) so it scrolls away with the hero instead of overlapping the sticky search card */
-  position:absolute;top:14px;right:16px;z-index:60;display:flex;gap:2px;
+  position:absolute;top:14px;right:16px;z-index:60;display:flex;align-items:stretch;gap:8px;
+}
+.lang-toggle2{
+  display:flex;gap:2px;
   background:rgba(255,255,255,0.75);backdrop-filter:blur(6px);
   padding:3px;border-radius:8px;border:1px solid rgba(var(--gold-rgb),0.35);
 }
@@ -293,7 +296,47 @@ body{
 }
 .lang-opt2.active{background:var(--gold);color:var(--navy-deep);}
 .lang-opt2:hover:not(.active){color:var(--text);background:rgba(0,0,0,0.04);}
-@media (max-width:480px){.lang-toggle2{top:10px;right:10px;}}
+@media (max-width:480px){.top-actions2{top:10px;right:10px;}}
+
+.qr-btn2{
+  display:flex;align-items:center;gap:6px;cursor:pointer;
+  font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:0.04em;color:var(--text);
+  background:rgba(255,255,255,0.75);backdrop-filter:blur(6px);
+  padding:0 11px;border-radius:8px;border:1px solid rgba(var(--gold-rgb),0.35);
+  transition:background .15s ease;
+}
+.qr-btn2:hover{background:rgba(255,255,255,0.95);}
+.qr-backdrop2{
+  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  padding:16px;background:rgba(8,14,23,0.55);backdrop-filter:blur(3px);
+  animation:qrFade2 .18s ease;
+}
+.qr-sheet2{
+  position:relative;width:100%;max-width:340px;max-height:calc(100vh - 32px);overflow:auto;
+  background:var(--paper);border-radius:16px;padding:26px 22px 22px;text-align:center;
+  box-shadow:var(--shadow-md);border:1px solid rgba(var(--gold-rgb),0.35);
+  animation:qrPop2 .22s var(--ease-swoop);
+}
+.qr-sheet2 h2{margin:0 0 6px;font-family:var(--serif);font-size:20px;color:var(--text);}
+.qr-sheet2 p{margin:0 auto 16px;font-size:13px;line-height:1.6;color:var(--muted);max-width:270px;}
+.qr-close2{
+  position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;cursor:pointer;
+  border:1px solid rgba(var(--gold-rgb),0.35);background:var(--paper-soft);color:var(--muted);
+  font-size:18px;line-height:1;
+}
+.qr-close2:hover{color:var(--text);}
+.qr-code2{display:inline-block;padding:10px;background:#fff;border-radius:12px;border:1px solid rgba(var(--gold-rgb),0.35);}
+.qr-code2 svg{display:block;width:min(232px,62vw);height:auto;}
+.qr-url2{margin:12px 0 16px;font-size:11.5px;color:var(--muted);word-break:break-all;}
+.qr-actions2{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+.qr-action2{
+  font-family:var(--sans);font-size:12.5px;font-weight:600;cursor:pointer;
+  padding:9px 14px;border-radius:999px;border:1px solid rgba(var(--gold-rgb),0.5);
+  background:transparent;color:var(--text);
+}
+.qr-action2.primary{background:var(--gold);border-color:var(--gold);color:var(--navy-deep);}
+@keyframes qrFade2{from{opacity:0}to{opacity:1}}
+@keyframes qrPop2{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
 
 :focus-visible{outline:2px solid var(--gold-deep);outline-offset:2px;}
 @media (prefers-reduced-motion:reduce){

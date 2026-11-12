@@ -32,4 +32,13 @@ export interface Dictionary {
   viewOnPlan: string;
   toastTableNotFound: (table: string) => string;
   langToggleTitle: string;
+  qrBtnTitle: string;
+  qrTitle: string;
+  qrDesc: string;
+  qrAlt: string;
+  qrLinkLabel: string;
+  qrShare: string;
+  qrCopy: string;
+  qrCopied: string;
+  qrDownload: string;
 }

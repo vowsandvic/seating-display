@@ -14,6 +14,17 @@ Place the exported `data.json` from seating-plan-app in `public/data.json`. The 
 
 The export includes the floor plan, guests, theme, language, and optional embedded logo. Deploy `public/data.json` alongside the built display app.
 
+## Event path
+
+When the deployed `data.json` has a `"path"` field, the deploy workflow:
+
+- builds the app with `--base=/seating-display/<path>/`
+- publishes it at `https://vowsandvic.github.io/seating-display/<path>/`
+
+The bare `/seating-display/` then returns 404. Pages serves only one site, so the previous event's path stops working. With no `path`, the app is published at `/seating-display/` as before. An invalid path fails the build. The run summary shows the live URL.
+
+The **QR** button next to the language toggle shows a QR code for the current page, so guests can pass the link to the people with them. From the same screen they can also share or copy the link, or save the QR as an image.
+
 ## Development
 
 ```bash

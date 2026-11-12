@@ -34,6 +34,15 @@ const th: Dictionary = {
   viewOnPlan: 'ดูผัง',
   toastTableNotFound: (table) => `ไม่พบโต๊ะ "${table}" ในผัง กรุณาสอบถามเจ้าหน้าที่`,
   langToggleTitle: 'เปลี่ยนภาษา / Switch language',
+  qrBtnTitle: 'แสดง QR code ของหน้านี้',
+  qrTitle: 'สแกนเพื่อค้นหาที่นั่ง',
+  qrDesc: 'ให้คนที่มาด้วยสแกน QR นี้ เพื่อเปิดหน้าค้นหาที่นั่งในมือถือของตัวเอง',
+  qrAlt: 'QR code ของหน้าค้นหาที่นั่ง',
+  qrLinkLabel: 'ลิงก์หน้าค้นหาที่นั่ง',
+  qrShare: 'แชร์ลิงก์',
+  qrCopy: 'คัดลอกลิงก์',
+  qrCopied: 'คัดลอกลิงก์แล้ว',
+  qrDownload: 'บันทึกรูป QR',
 };
 
 export default th;
